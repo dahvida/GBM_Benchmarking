@@ -59,7 +59,6 @@ def train_model(x, y, x_val, y_val, params, booster_type):
             pos_subsample =       1,
             random_state =        np.random.randint(0, 1000),
             n_estimators =        1000,
-            boosting_type =       "dart",
             max_bin =             15,
             verbose=             -10,   
             **params)
