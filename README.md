@@ -1,4 +1,4 @@
-!(/Pictures/graphical_abstract.png)
+![Alt text](/Pictures/graphical_abstract.png)
 
 # GBM Benchmarking  
 Repository containing the code and the datasets to reproduce the results from the paper "Practical guidelines for the use of Gradient Boosting for molecular property prediction".  
