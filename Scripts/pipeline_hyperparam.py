@@ -4,20 +4,28 @@ import numpy as np
 import pickle as pkl
 import warnings
 warnings.filterwarnings("ignore")
+import argparse
 
-#initialize parameters for the run
-opt_iters = 500
-run_iters = 1						#placeholder
-sets = ["bace", "bbbp", "clintox", "tox21",
-	 "muv", "hiv", "phos", "ntp", "oxi"]
-tasks = [1, 1, 2, 12, 17, 1, 5, 6, 10]
-repo = ["moleculenet"]*6 + ["moldata"]*3
-fp_type = "ECFP"
-lgb_results = pd.DataFrame()
+parser = argparse.ArgumentParser()
+parser.add_argument('--run_iters', default="1")
+parser.add_argument('--opt_iters', default=500)
+parser.add_argument('--fp_type', default="ECFP")
+args = parser.parse_args()
 
 ###############################################################################
 
 def main():
+	#initialize parameters for the run and unpack args
+	opt_iters = args.opt_iters
+	run_iters = args.run_iters						#placeholder
+	fp_type = args.fp_type
+	sets = ["bace", "bbbp", "clintox", "tox21",
+	 "muv", "hiv", "phos", "ntp", "oxi"]
+	tasks = [1, 1, 2, 12, 17, 1, 5, 6, 10]
+	repo = ["moleculenet"]*6 + ["moldata"]*3
+	
+	lgb_results = pd.DataFrame()
+	
 	#loop over all datasets
 	for i in range(len(sets)):
 	    	#acquire hyperparameter importances and first order interactions

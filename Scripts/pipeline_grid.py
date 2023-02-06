@@ -5,14 +5,14 @@ import pickle as pkl
 import warnings
 warnings.filterwarnings("ignore")
 
-#initialize hyperparams for the analysis
-fp_types = ["ECFP", "MACCS", "RDKIT"]
-results_sider = pd.DataFrame()
-results_fungal = pd.DataFrame()
-
 ###############################################################################
 
 def main():
+	#initialize hyperparams for the analysis
+	fp_types = ["ECFP", "MACCS", "RDKIT"]
+	results_sider = pd.DataFrame()
+	results_fungal = pd.DataFrame()
+	
 	for i in range(3):
 		#evaluate SIDER dataset with different grids
     		pr_100d, roc_100d = eval_dataset("sider",

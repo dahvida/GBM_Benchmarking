@@ -46,9 +46,9 @@ def eval_dataset(dataset_name,
     if fp_type == "ECFP":
         shaps = np.empty((1024, task_n))
     elif fp_type == "MACCS":
-        shaps = np.empty((167, task_n))
+        shaps = np.zeros((167, task_n))
     elif fp_type == "RDKIT":
-        shaps = np.empty((208, task_n))
+        shaps = np.zeros((208, task_n))
     keys = []
     
     for i in range(task_n):
@@ -115,22 +115,17 @@ def eval_boosters(dataset_name,
                   task_n,
                   fp_type,
                   opt_iters = 100,
-                  run_iters = 50,
-                  use_single_GBM = False):
+                  run_iters = 50):
     
     prefix = "../Results/"
     print("Evaluation start for:", dataset_name)
     
-    if use_single_GBM is False:
-    	gbm_list = ["xgboost", "lightgbm", "catboost"]
-    else:
-    	gbm_list = [use_single_GBM] * 2
     
     pr_auc_1, roc_auc_1, model_1, times_1, opts_1, keys_1, shaps_1 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
-                                                                  gbm_list[0], 
+                                                                  "xgboost",
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
 
@@ -138,7 +133,7 @@ def eval_boosters(dataset_name,
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
-                                                                  gbm_list[1], 
+                                                                  "lightgbm",
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
     
@@ -146,7 +141,7 @@ def eval_boosters(dataset_name,
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
-                                                                  gbm_list[2], 
+                                                                  "catboost",
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
         
@@ -193,7 +188,7 @@ def validate_booster(dataset_name,
     prefix = "../Results/"
     print("Evaluation start for:", dataset_name)
         
-    pr_auc_1, roc_auc_1, model_1, times_1, opts_1, keys_1, shaps_1 = eval_dataset(dataset_name, 
+    _, _, _, _, _, _, shaps_1 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
@@ -201,14 +196,14 @@ def validate_booster(dataset_name,
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
 
-    pr_auc_2, roc_auc_2, model_2, times_2, opts_2, keys_2, shaps_2 = eval_dataset(dataset_name, 
+    _, _, _, _, _, _, shaps_2 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
                                                                   "lightgbm", 
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
-
+    
     comp_1_2, comp_1_3, comp_2_3 = compare_shaps(shaps_1, shaps_2, shaps_1)
 
     shap_comparison = {"Run_1 vs Run_2": comp_1_2}
