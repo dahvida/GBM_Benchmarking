@@ -1,6 +1,7 @@
 # GBM Benchmarking  
 ![Alt text](/Pictures/graphical_abstract.png)
-[![Python 3.6](https://img.shields.io/badge/python-3.7%20%7C%203.8-brightgreen)]
+![Python 3.6](https://img.shields.io/badge/python-3.7%20%7C%203.8-brightgreen)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
 Repository containing the code and the datasets to reproduce the results from the paper "Practical guidelines for the use of Gradient Boosting for molecular property prediction".  
 
 ## Installation  
