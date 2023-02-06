@@ -13,12 +13,12 @@ conda activate GBM
 ```
 
 ## Usage
-All results can be reproduced by executing the respective *_pipeline.py files in the Scripts folder. The outputs from each script can be found in the Results folder, either as .csv, .pkl or .txt files.  
-- **pipeline_script.py**: &ensp;returns ROC-AUC, PR-AUC, training time and Shapley overlap for all GBM implementations on all datasets  
-- **pipeline_hyperparam.py**: &ensp;evaluates the importance of each hyperparameter using fANOVA  
-- **pipeline_grid.py**: &ensp;evaluates the performance of the grid with the most important hyperparameters versus optimizing all possible hyperparameters  
-- **pipeline_fragments.py**: &ensp;draws the top 20 most important ECFP bits for the BACE dataset for all GBM implementations  
-- **pipeline_reproducibility.py**: &ensp;evaluates the Shapley overlap across all datasets for two independent optimization and training runs with LightGBM  
+All results can be reproduced by executing the respective **pipeline_*.py** files in the **Scripts** folder. The outputs from each script can be found in the **Results** folder, either as .csv, .pkl or .txt files.  
+- **pipeline_script.py**: &emsp;returns ROC-AUC, PR-AUC, training time and Shapley overlap for all GBM implementations on all datasets  
+- **pipeline_hyperparam.py**: &emsp;evaluates the importance of each hyperparameter using fANOVA  
+- **pipeline_grid.py**: &emsp;evaluates the performance of the grid with the most important hyperparameters versus optimizing all possible hyperparameters  
+- **pipeline_fragments.py**: &emsp;draws the top 20 most important ECFP bits for the BACE dataset for all GBM implementations  
+- **pipeline_reproducibility.py**: &emsp;evaluates the Shapley overlap across all datasets for two independent optimization and training runs with LightGBM  
 
 For example, here is the code to execute the script for obtaining the classification performance results using the hyperparameters used in the paper:  
 ```
