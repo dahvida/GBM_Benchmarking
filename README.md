@@ -2,7 +2,7 @@
 ![Alt text](/Pictures/graphical_abstract.png)
 ![Python 3.6](https://img.shields.io/badge/python-3.7%20%7C%203.8-brightgreen)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)  
-Repository containing the code and the datasets to reproduce the results from the paper "Practical guidelines for the use of Gradient Boosting for molecular property prediction".  
+Repository containing the code and the datasets to reproduce the results from the paper "*Practical guidelines for the use of Gradient Boosting for molecular property prediction*".  
 
 ## Repository structure
 - **Datasets:** contains all datasets used in this study as .csv files  
