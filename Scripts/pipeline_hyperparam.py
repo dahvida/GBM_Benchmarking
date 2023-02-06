@@ -7,9 +7,9 @@ warnings.filterwarnings("ignore")
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--run_iters', default="1")
-parser.add_argument('--opt_iters', default=500)
-parser.add_argument('--fp_type', default="ECFP")
+parser.add_argument('--run_iters', default="1")		#placeholder needed for the function, keep to 1
+parser.add_argument('--opt_iters', default=500)		#number of optimization iterations
+parser.add_argument('--fp_type', default="ECFP")		#molecular representation (ECFP, MACCS, RDKIT)
 args = parser.parse_args()
 
 ###############################################################################

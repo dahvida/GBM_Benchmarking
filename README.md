@@ -18,7 +18,7 @@ conda activate GBM
 ```
 
 ## Usage
-All results can be reproduced by executing the respective **pipeline_*.py** files in the **Scripts** folder. The outputs from each script will be saved in the **Results** folder, either as .csv, .pkl or .txt files.  
+All results can be reproduced by executing the respective *pipeline_*.py* files in the *Scripts* folder. The outputs from each script will be saved in the *Results* folder, either as .csv, .pkl or .txt files.  
 - **pipeline_benchmark.py:** returns ROC-AUC, PR-AUC, training time and Shapley overlap for all GBM implementations on all datasets  
 - **pipeline_hyperparam.py:** evaluates the importance of each hyperparameter using fANOVA  
 - **pipeline_grid.py:** evaluates the performance of the grid with the most important hyperparameters versus optimizing all possible hyperparameters  
@@ -36,7 +36,7 @@ Here is the code to execute the same script, changing the number of iterations f
 cd /GBM_Benchmarking/Scripts
 python3 pipeline_benchmarking.py --opt_iters 30 --iters_moleculenet 10 --iters_moldata 3
 ```
-Check the **pipeline_*.py** files in the **Scripts** folder for a comprehensive description of the available arguments for each script.  
+Check the *pipeline_*.py* files in the *Scripts* folder for a description of the available arguments for each script.  
 
 ## How to cite
 Link to publication  
