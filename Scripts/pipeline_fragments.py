@@ -68,7 +68,7 @@ def main():
                           )
 	fig.save("../Results/all_fragments.png")
 
-if __name__ == "main":
+if __name__ == "__main__":
 	main()
 
 

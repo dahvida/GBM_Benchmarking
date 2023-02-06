@@ -39,5 +39,5 @@ def main():
 	lgb_results.sort_values("Means", ascending=False, inplace=True)	#sort
 	lgb_results.to_csv("../Results/hyperparam_analysis.csv")		#store in .csv
 
-if __name__ == "main":
+if __name__ == "__main__":
 	main()

@@ -44,7 +44,7 @@ def get_RDKIT(mols):
 
 def molnet_loader(dataset_name, task_id, fp_type = "MACCS"):
     dataset_name = dataset_name.lower()
-    db = pd.read_csv("./datasets/" + dataset_name + ".csv")
+    db = pd.read_csv("../datasets/" + dataset_name + ".csv")
     task_name = list(db.columns)[task_id]
     db = db.loc[:, ["smiles", task_name]]    
     db.dropna(inplace=True)
@@ -66,7 +66,7 @@ def molnet_loader(dataset_name, task_id, fp_type = "MACCS"):
 
 def moldata_loader(dataset_name, task_id, fp_type = "MACCS"):
     dataset_name = dataset_name.lower()
-    db = pd.read_csv("./datasets/" + dataset_name + ".csv")
+    db = pd.read_csv("../datasets/" + dataset_name + ".csv")
     
     task_name = list(db.columns[2:-1])[task_id]
     db = db.loc[:, ["smiles", task_name, "split"]]

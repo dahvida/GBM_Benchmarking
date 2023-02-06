@@ -8,6 +8,7 @@ from misc import *
 import time
 import pandas as pd
 import pickle as pkl
+import json
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -21,6 +22,9 @@ DATASET PROCESSING FUNCTIONS
 			
 - eval_boosters:	loops eval_dataset over all possible GBM algorithms for a given
 			dataset and saves the formatted outputs in Results
+			
+- validate_booster:	compares shapley values overlap between two independent optimization
+			runs for the same GBM algorithm
 """
 
 def eval_dataset(dataset_name,
@@ -111,16 +115,22 @@ def eval_boosters(dataset_name,
                   task_n,
                   fp_type,
                   opt_iters = 100,
-                  run_iters = 50):
+                  run_iters = 50,
+                  use_single_GBM = False):
     
     prefix = "../Results/"
     print("Evaluation start for:", dataset_name)
+    
+    if use_single_GBM is False:
+    	gbm_list = ["xgboost", "lightgbm", "catboost"]
+    else:
+    	gbm_list = [use_single_GBM] * 2
     
     pr_auc_1, roc_auc_1, model_1, times_1, opts_1, keys_1, shaps_1 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
-                                                                  "xgboost", 
+                                                                  gbm_list[0], 
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
 
@@ -128,15 +138,15 @@ def eval_boosters(dataset_name,
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
-                                                                  "lightgbm", 
+                                                                  gbm_list[1], 
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
-
+    
     pr_auc_3, roc_auc_3, model_3, times_3, opts_3, keys_3, shaps_3 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
-                                                                  "catboost", 
+                                                                  gbm_list[2], 
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
         
@@ -161,12 +171,69 @@ def eval_boosters(dataset_name,
     shap_comparison = {"XGB vs LGB": comp_1_2,
                        "XGB vs CB": comp_1_3,
                        "LGB vs CB": comp_2_3}
-
+    with open(prefix + dataset_name + '_shap_comp.txt', 'w') as file:
+    	file.write(json.dumps(shap_comparison))	
+	
     summary = [xgb_dict, lgb_dict, cb_dict, shap_comparison]
+    
     with open(prefix + dataset_name + "_summary.pkl", "wb") as output_file:
             pkl.dump(summary, output_file)
             
     print("Job finished")
+
+
+def validate_booster(dataset_name,
+                  dataset_rep,
+                  task_n,
+                  fp_type,
+                  opt_iters = 100,
+                  run_iters = 50,
+                  GBM = "lightGBM"):
+    
+    prefix = "../Results/"
+    print("Evaluation start for:", dataset_name)
+        
+    pr_auc_1, roc_auc_1, model_1, times_1, opts_1, keys_1, shaps_1 = eval_dataset(dataset_name, 
+                                                                  dataset_rep,
+                                                                  task_n,
+                                                                  fp_type,
+                                                                  "lightgbm", 
+                                                                  opt_iters=opt_iters,
+                                                                  run_iters=run_iters)
+
+    pr_auc_2, roc_auc_2, model_2, times_2, opts_2, keys_2, shaps_2 = eval_dataset(dataset_name, 
+                                                                  dataset_rep,
+                                                                  task_n,
+                                                                  fp_type,
+                                                                  "lightgbm", 
+                                                                  opt_iters=opt_iters,
+                                                                  run_iters=run_iters)
+
+    comp_1_2, comp_1_3, comp_2_3 = compare_shaps(shaps_1, shaps_2, shaps_1)
+
+    shap_comparison = {"Run_1 vs Run_2": comp_1_2}
+    with open(prefix + dataset_name + '_shap_comp.txt', 'w') as file:
+    	file.write(json.dumps(shap_comparison))	
+            
+    print("Job finished")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -99,8 +99,9 @@ def match_top_hits(slice_1, slice_2):
     
     combined = np.concatenate((slice_1, slice_2), axis=0)
     uniques = np.unique(combined)
+    n_uniques = len(uniques) - 20
     
-    return 1 - (len(uniques) / 20)
+    return 1 - (n_uniques / 20)
     
 
 def compare_shaps(shap_1, shap_2, shap_3):
