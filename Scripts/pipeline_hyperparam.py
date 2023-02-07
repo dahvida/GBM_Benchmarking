@@ -6,36 +6,58 @@ import warnings
 warnings.filterwarnings("ignore")
 import argparse
 
+###############################################################################
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--run_iters', default="1")		#placeholder needed for the function, keep to 1
-parser.add_argument('--opt_iters', default=500)		#number of optimization iterations
-parser.add_argument('--fp_type', default="ECFP")    #molecular representation (ECFP, MACCS, RDKIT)
+parser.add_argument('--repo', default="all")			#repository to use for the analysis (moleculenet, moldata, all)
+parser.add_argument('--opt_iters', default=500, type=int)	#number of optimization iterations
+parser.add_argument('--fp_type', default="ECFP")    		#molecular representation (ECFP, MACCS, RDKIT)
 args = parser.parse_args()
 
 ###############################################################################
 
-def main():
-	#initialize parameters for the run and unpack args
-	opt_iters = args.opt_iters
-	run_iters = args.run_iters						#placeholder
-	fp_type = args.fp_type
-	sets = ["bace", "bbbp", "clintox", "tox21",
-	 "muv", "hiv", "phos", "ntp", "oxi"]
-	tasks = [1, 1, 2, 12, 17, 1, 5, 6, 10]
-	repo = ["moleculenet"]*6 + ["moldata"]*3
+def main(
+	opt_iters,
+	repo,
+	fp_type
+	):
 	
+	#initialize pandas dataframe for the run
 	lgb_results = pd.DataFrame()
+	
+	#initialize hyperparams for the analysis of the datasets
+	if repo == "all":
+		dataset_names = [
+			"HIV", "tox21", "MUV", "bace", "bbbp", "clintox",
+			"phos", "ntp", "oxi"
+			]
+		task_n = [1, 12, 17, 1, 1, 2, 5, 6, 10]
+		repository_names = ["moleculenet"]*6 + ["moldata"]*3
+		iters = [iters_moleculenet]*6 + [iters_moldata]*3
+		
+	if repo == "moleculenet":
+		dataset_names = ["HIV", "tox21", "MUV", "bace", "bbbp", "clintox"]
+		task_n = [1, 12, 17, 1, 1, 2]		 ]
+		repository_names = ["moleculenet"]*6
+		iters = [iters_moleculenet]*6
+		
+	if repo == "moldata":
+		dataset_names = ["phos", "ntp", "oxi"]
+		task_n = [5, 6, 10]
+		repository_names = ["moldata"]*3
+		iters = [iters_moldata]*3	
 	
 	#loop over all datasets
 	for i in range(len(sets)):
 	    	#acquire hyperparameter importances and first order interactions
-	    	_, _, _, _, opts, keys, _ = eval_dataset(sets[i], 
+	    	_, _, _, _, opts, keys, _ = eval_dataset(
+                                             dataset_names[i], 
                                              repo[i],
                                              tasks[i],
                                              fp_type,
                                              "lightgbm", 
                                              opt_iters=opt_iters,
-                                             run_iters=run_iters,
+                                             run_iters=1,
                                              do_fanova=True,
                                              do_shap=False)
 	    	#save importances in dataframe
@@ -48,4 +70,8 @@ def main():
 	lgb_results.to_csv("../Results/hyperparam_analysis.csv")           #store in .csv
 
 if __name__ == "__main__":
-	main()
+	main(
+	opt_iters = args.opt_iters,
+	repo = args.opt_repo,
+	fp_type = args.fp_type
+	)   

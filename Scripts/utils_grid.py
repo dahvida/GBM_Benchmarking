@@ -19,6 +19,8 @@ DATASET PROCESSING FUCTIONS FOR HYPERPARAMETER GRID ANALYSIS WITH LIGHTGBM
 - eval_lightgbm:		acquires ROC-AUC and PR-AUC for a given dataset using LightGBM
 """
 
+#-----------------------------------------------------------------------------#
+
 def create_param_space(grid_type = "default"):
     
     #get grid with all params for hyperopt as dict
@@ -52,6 +54,7 @@ def create_param_space(grid_type = "default"):
         
     return space
     
+#-----------------------------------------------------------------------------#    
 
 def fix_params(params, grid_type):
     #select params to convert to int
@@ -66,6 +69,7 @@ def fix_params(params, grid_type):
     
     return params
     
+#-----------------------------------------------------------------------------#    
         
 def train_model(x, y, x_val, y_val, params, grid_type):
     #convert params to int
@@ -88,6 +92,7 @@ def train_model(x, y, x_val, y_val, params, grid_type):
                
     return model
     
+#-----------------------------------------------------------------------------#
 
 def optimize_lightgbm(
                  x_train = None,
@@ -141,6 +146,7 @@ def optimize_lightgbm(
                 
             return optimum
 
+#-----------------------------------------------------------------------------#
 
 def eval_lightgbm(dataset_name,
                  dataset_source,
@@ -208,18 +214,7 @@ def eval_lightgbm(dataset_name,
     
     return pr_auc, roc_auc
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+#-----------------------------------------------------------------------------#      
         
         
         

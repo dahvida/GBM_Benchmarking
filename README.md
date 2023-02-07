@@ -5,9 +5,9 @@
 Repository containing the code and the datasets to reproduce the results from the paper "*Practical guidelines for the use of Gradient Boosting for molecular property prediction*".  
 
 ## Repository structure
-- **Datasets:** contains all datasets used in this study as .csv files  
-- **Scripts:** contains all scripts and utility functions used to reproduce the results  
-- **Results:** contains the outputs from the pipeline functons  
+- **Datasets:** Contains all datasets used in this study as .csv files  
+- **Scripts:** Contains all scripts and utility functions used to reproduce the results  
+- **Results:** Contains the outputs from the pipeline functons  
 
 ## Installation  
 All necessary packages can be installed via conda from the environment.yml file.  
@@ -19,11 +19,11 @@ conda activate GBM
 
 ## Usage
 All results can be reproduced by executing the respective *pipeline_x.py* files in the *Scripts* folder. The outputs from each script will be saved in the *Results* folder, either as .csv, .pkl or .txt files.  
-- **pipeline_benchmark.py:** returns ROC-AUC, PR-AUC, training time and Shapley overlap for all GBM implementations on all datasets  
-- **pipeline_hyperparam.py:** evaluates the importance of each hyperparameter using fANOVA  
-- **pipeline_grid.py:** evaluates the performance of the grid with the most important hyperparameters versus optimizing all possible hyperparameters  
-- **pipeline_fragments.py:** draws the top 20 most important ECFP bits for the BACE dataset for all GBM implementations  
-- **pipeline_reproducibility.py:** evaluates the Shapley overlap across all datasets for two independent optimization and training runs with LightGBM  
+- **pipeline_benchmark.py:** Returns ROC-AUC, PR-AUC, training time and Shapley overlap for all GBM implementations on the selected datasets  
+- **pipeline_hyperparam.py:** Evaluates the importance of each hyperparameter using fANOVA on the selected datasets  
+- **pipeline_grid.py:** Evaluates the performance of the grid with the most important hyperparameters versus optimizing all possible hyperparameters  
+- **pipeline_fragments.py:** Draws the top 20 most important ECFP bits for a given dataset for all GBM implementations. Currently supports only the BACE, BBBP and HIV datasets  
+- **pipeline_reproducibility.py:** Evaluates the Shapley overlap on the selected datasets for two independent optimization and training runs with LightGBM  
 
 ## Tutorial
 Each script uses as default arguments the same parameters used in the paper. For example,here is the code to execute the script for obtaining the classification performance results:  

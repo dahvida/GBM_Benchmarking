@@ -27,6 +27,8 @@ DATASET PROCESSING FUNCTIONS
 			runs for the same GBM algorithm
 """
 
+#-----------------------------------------------------------------------------#
+
 def eval_dataset(dataset_name,
                  dataset_source,
                  task_n,
@@ -116,6 +118,7 @@ def eval_dataset(dataset_name,
     
     return pr_auc, roc_auc, model, times, opts, augment_keys(keys), shaps
         
+#-----------------------------------------------------------------------------#        
         
 def eval_boosters(dataset_name,
                   dataset_rep,
@@ -185,6 +188,7 @@ def eval_boosters(dataset_name,
             
     print("Job finished")
 
+#-----------------------------------------------------------------------------#
 
 def validate_booster(dataset_name,
                   dataset_rep,
@@ -223,24 +227,7 @@ def validate_booster(dataset_name,
             
     print("Job finished")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#-----------------------------------------------------------------------------#
 
 
 

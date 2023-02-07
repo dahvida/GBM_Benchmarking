@@ -18,6 +18,8 @@ PREPROCESSING FUNCTIONS
 - moldata_loader:	splits / featurizes given task in given dataset from moldata
 """
 
+#-----------------------------------------------------------------------------#
+
 def get_ECFP(mols, radius = 2, nbits = 1024):
     #initialize empty array
     array = np.empty((len(mols), nbits), dtype=np.float32)
@@ -31,6 +33,8 @@ def get_ECFP(mols, radius = 2, nbits = 1024):
         
     return array
 
+#-----------------------------------------------------------------------------#
+
 def get_MACCS(mols):
     #initialize empty array
     array = np.empty((len(mols), 167), dtype=np.float32)
@@ -43,6 +47,8 @@ def get_MACCS(mols):
         DataStructs.ConvertToNumpyArray(fps[i], array[i])
         
     return array
+    
+#-----------------------------------------------------------------------------#    
 
 def get_RDKIT(mols):
     #load list of 2D descriptors and create Calculator
@@ -61,6 +67,7 @@ def get_RDKIT(mols):
     
     return descs
 
+#-----------------------------------------------------------------------------#
 
 def molnet_loader(dataset_name, task_id, fp_type = "ECFP"):
     #load dataset from .csv file in ../Datasets
@@ -91,6 +98,7 @@ def molnet_loader(dataset_name, task_id, fp_type = "ECFP"):
     
     return x, y
 
+#-----------------------------------------------------------------------------#
 
 def moldata_loader(dataset_name, task_id, fp_type = "MACCS"):
     #load dataset from .csv file in ../Datasets
@@ -138,7 +146,7 @@ def moldata_loader(dataset_name, task_id, fp_type = "MACCS"):
     
     return X_tr, y_tr, X_te, y_te, X_v, y_v       
     
-    
+#-----------------------------------------------------------------------------#
     
     
 

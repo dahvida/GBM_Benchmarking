@@ -25,6 +25,8 @@ fANOVA FUNCTIONS
 - run_fANOVA:		executes fANOVA analysis given hyperopt optimization process
 """
 
+#-----------------------------------------------------------------------------#
+
 def unpack_trials(trials):
     #get loss values from optimization process
     results = [x["loss"] for x in trials.results]
@@ -41,11 +43,13 @@ def unpack_trials(trials):
     
     return matrix, results, keys
 
+#-----------------------------------------------------------------------------#
 
 def powerset(iterable):
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
+#-----------------------------------------------------------------------------#
 
 def augment_keys(keys):
     #get all possible interactions between hyperparam indexes
@@ -60,7 +64,8 @@ def augment_keys(keys):
         combinations[i] = "*".join(combinations[i])
         
     return combinations    
-
+    
+#-----------------------------------------------------------------------------#
 
 def run_fANOVA(matrix, results):
     #initialize fANOVA and remove worst 30% runs to focus eval on near-optimum
@@ -98,6 +103,8 @@ SHAPLEY FUNCTIONS
 - compare_shaps:	given three sets of Shapley values, run all comparisons
 """
 
+#-----------------------------------------------------------------------------#
+
 def get_importances(x, model):
     #create explainer object for Shapley analysis
     explainer = shap.Explainer(model)
@@ -114,6 +121,7 @@ def get_importances(x, model):
     
     return shap_values
     
+#-----------------------------------------------------------------------------#
 
 def match_top_hits(slice_1, slice_2):
     #select top 20 vars
@@ -129,6 +137,7 @@ def match_top_hits(slice_1, slice_2):
     
     return 1 - (n_uniques / 20)
     
+#-----------------------------------------------------------------------------#    
 
 def compare_shaps(shap_1, shap_2, shap_3):
     #preallocate list of right size depending on n_tasks
@@ -161,6 +170,8 @@ FRAGMENT FUNCTIONS
 - process_shap:	    create tuples with molecule, bit id and bit info
 """
 
+#-----------------------------------------------------------------------------#
+
 def get_ecfp_info(mols):
     #preallocate array and empty lists
     array = np.empty((len(mols), 1024), dtype=np.float32)
@@ -182,6 +193,7 @@ def get_ecfp_info(mols):
     
     return array, info_box
     
+#-----------------------------------------------------------------------------#    
 
 def get_shap(model, ecfp):
     #create Explainer and calculate local shapley values for all ECFPs
@@ -199,6 +211,7 @@ def get_shap(model, ecfp):
     
     return np.array(top_shaps, dtype = np.int16)
     
+#-----------------------------------------------------------------------------#    
 
 def process_shap(ecfp,
                  mols,
@@ -223,7 +236,7 @@ def process_shap(ecfp,
         
     return box
     
-
+#-----------------------------------------------------------------------------#
 
 
 

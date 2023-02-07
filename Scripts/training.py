@@ -17,6 +17,8 @@ TRAINING FUNCTIONS
 - train_model:	trains a GBM classifier given splits, params and type of algorithm
 """
 
+#-----------------------------------------------------------------------------#
+
 def fix_params(params, booster_type):
     
     #get params to convert to int for XGBoost
@@ -38,6 +40,7 @@ def fix_params(params, booster_type):
     
     return params
     
+#-----------------------------------------------------------------------------#    
 
 def train_model(x, y, x_val, y_val, params, booster_type):
     #fix param dict
@@ -87,4 +90,7 @@ def train_model(x, y, x_val, y_val, params, booster_type):
                   verbose=False)
         
     return model
+    
+#-----------------------------------------------------------------------------#
+    
 

@@ -10,23 +10,21 @@ warnings.filterwarnings("ignore")
 from rdkit.Chem.Draw import IPythonConsole
 import argparse
 
+###############################################################################
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset', default="BACE")        #Dataset to use for the analysis
-parser.add_argument('--repo', default="moleculenet")    #Repository of the dataset (moleculenet, moldata)
-parser.add_argument('--task_n', default="1")            #number of tasks for the chosen dataset
-parser.add_argument('--opt_iters', default=100)         #number of optimization iterations
-parser.add_argument('--fp_type', default="ECFP")        #molecular representation (ECFP, MACCS, RDKIT)
+parser.add_argument('--dataset', default="BACE")        	#Dataset to use for the analysis (BACE, BBBP, HIV)
+parser.add_argument('--opt_iters', default=100, type=int)     #number of optimization iterations
 args = parser.parse_args()
 
 ###############################################################################
 
-def main():
-    #initialize hyperparams for the analysis and unpack args
-    opt_iters = args.opt_iters
-    dataset = args.dataset
-    source = args.repo
-    task_n = args.task_n
-    fp_type = args.fp_type
+def main(
+	dataset,
+	opt_iters,
+	):
+	
+    #initialize hyperparams for the analysis
     boosters = ["xgboost", "lightgbm", "catboost"]
     spaces = [create_param_space(x) for x in boosters]
     models = [0]*3
@@ -77,7 +75,10 @@ def main():
     fig.save("../Results/all_fragments.png")
 
 if __name__ == "__main__":
-	main()
+	main(
+	dataset = args.dataset
+	opt_iters = args.opt_iters
+	)
 
 
 
