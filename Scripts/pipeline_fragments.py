@@ -11,11 +11,11 @@ from rdkit.Chem.Draw import IPythonConsole
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset', default="BACE")		#Dataset to use for the analysis
-parser.add_argument('--repo', default="moleculenet")		#Repository of the dataset (moleculenet, moldata)
-parser.add_argument('--task_n', default="1")			#number of tasks for the chosen dataset
-parser.add_argument('--opt_iters', default=100)		#number of optimization iterations
-parser.add_argument('--fp_type', default="ECFP")		#molecular representation (ECFP, MACCS, RDKIT)
+parser.add_argument('--dataset', default="BACE")        #Dataset to use for the analysis
+parser.add_argument('--repo', default="moleculenet")    #Repository of the dataset (moleculenet, moldata)
+parser.add_argument('--task_n', default="1")            #number of tasks for the chosen dataset
+parser.add_argument('--opt_iters', default=100)         #number of optimization iterations
+parser.add_argument('--fp_type', default="ECFP")        #molecular representation (ECFP, MACCS, RDKIT)
 args = parser.parse_args()
 
 ###############################################################################

@@ -20,6 +20,8 @@ DATASET PROCESSING FUCTIONS FOR HYPERPARAMETER GRID ANALYSIS WITH LIGHTGBM
 """
 
 def create_param_space(grid_type = "default"):
+    
+    #get grid with all params for hyperopt as dict
     if grid_type == "default":
         space = {
                 'num_leaves':           hp.qloguniform('num_leaves', np.log(10), np.log(10000), 1),
@@ -35,6 +37,8 @@ def create_param_space(grid_type = "default"):
                 "subsample_freq":       hp.quniform("subsample_freq", 0, 30, 1),
                 "scale_pos_weight":     hp.loguniform("scale_pos_weight", 0, 6)
                 }
+        
+    #get grid with most important params for hyperopt as dict
     else:
         space = {
                 'learning_rate':        hp.loguniform('learning_rate', np.log(0.001), 0),
@@ -50,11 +54,13 @@ def create_param_space(grid_type = "default"):
     
 
 def fix_params(params, grid_type):
+    #select params to convert to int
     if grid_type == "default":
         index = ["num_leaves", "max_depth", "min_child_samples", "subsample_freq"]
     else:
         index = ["subsample_freq"]
     
+    #convert params to int
     for x in index:
         params[x] = int(params[x])
     
@@ -62,13 +68,18 @@ def fix_params(params, grid_type):
     
         
 def train_model(x, y, x_val, y_val, params, grid_type):
+    #convert params to int
     params = fix_params(params, grid_type)
+    
+    #make early stopping callback
     early_stopping = lgb.early_stopping(stopping_rounds=50, verbose=False)
+    
+    #train model
     model = lgb.LGBMClassifier(
-            pos_subsample =       1,
-            random_state =        np.random.randint(0, 1000),
+            pos_subsample =       1,                            #necessary for sampling majority class
+            random_state =        np.random.randint(0, 1000),   #force random seed
             n_estimators =        1000,
-            max_bin =             15,
+            max_bin =             15,                           #set for speed
             verbose=             -10,   
             **params)
     model.fit(x, y, 
@@ -91,10 +102,10 @@ def optimize_lightgbm(
                  metric = average_precision_score
                  ):
             
+            #swap eval function depending on necessary splits
             if source == "moldata":    
                 def model_eval(args):
-            
-                    #define training loop
+                    #optimize on val set from moldata
                     params = args
                     model = train_model(x_train, y_train, x_val, y_val, params, grid_type)
                     preds = model.predict_proba(x_val)[:,1]
@@ -102,20 +113,23 @@ def optimize_lightgbm(
             
             else:
                 def model_eval(args):
-                    
-                        params = args
-                        performance_box = []
-                        for i in range(splits):
+                    #use routine from Jiang to optimize on moleculenet datasets
+                    params = args
+                    performance_box = []
+                    for i in range(splits):
+                            #get random splits and get performance on test set
                             x1, x2, y1, y2 = train_test_split(x_train, y_train, stratify=y_train, test_size=0.2)    
                             x2, x3, y2, y3 = train_test_split(x2, y2, stratify=y2, test_size=0.5)
                             model = train_model(x1, y1, x2, y2, params, grid_type)
                             preds = model.predict_proba(x3)[:,1]
                             performance_box.append(metric(y3, preds))
                     
-                        return 1-np.mean(performance_box)
+                    return 1-np.mean(performance_box)
             
+            #create trials object
             trials = Trials()
-            #get optimum hyperparameters
+            
+            #run optimization
             optimum = fmin(
                 fn = model_eval,
                 space = space,
@@ -136,13 +150,17 @@ def eval_lightgbm(dataset_name,
                  opt_iters = 100,
                  run_iters = 50):
     
+    #prealloc performance containers
     pr_auc = np.empty((run_iters, task_n))
     roc_auc = np.empty((run_iters, task_n))
   
-    
+    #loop over all tasks
     for i in range(task_n):
         print("--Task ID:", i)
+        #create param space for optimization
         space = create_param_space(grid_type)
+        
+        #adjust dataset loader and split type depending on repo
         if dataset_source == "moleculenet":
             x, y = molnet_loader(dataset_name, i, fp_type)
             opt  = optimize_lightgbm(x_train = x,
@@ -162,9 +180,10 @@ def eval_lightgbm(dataset_name,
                                     iters=opt_iters,
                                     source = dataset_source)
         
-        
+        #iterate over number of evaluations
         for j in range(run_iters):
-                           
+            
+            #create random splits if repo is moleculenet
             if dataset_source == "moleculenet":
                 train_x, val_x, train_y, val_y = train_test_split(x, y,
                                                   stratify=y,
@@ -175,12 +194,15 @@ def eval_lightgbm(dataset_name,
             else:
                 pass
             
+            #train model with optimum hyperparams and get logits
             model = train_model(train_x, train_y, val_x, val_y, opt, grid_type)
             preds = model.predict_proba(test_x)[:,1]
             
+            #store results
             pr_auc[j, i] = average_precision_score(test_y, preds)
             roc_auc[j, i] = roc_auc_score(test_y, preds)
-            
+    
+    #average results across evals
     pr_auc = np.mean(pr_auc, axis=1)
     roc_auc = np.mean(roc_auc, axis=1)
     

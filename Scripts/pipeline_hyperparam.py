@@ -9,7 +9,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--run_iters', default="1")		#placeholder needed for the function, keep to 1
 parser.add_argument('--opt_iters', default=500)		#number of optimization iterations
-parser.add_argument('--fp_type', default="ECFP")		#molecular representation (ECFP, MACCS, RDKIT)
+parser.add_argument('--fp_type', default="ECFP")    #molecular representation (ECFP, MACCS, RDKIT)
 args = parser.parse_args()
 
 ###############################################################################
@@ -41,11 +41,11 @@ def main():
 	    	#save importances in dataframe
 	    	lgb_results[sets[i]] = opts[0][0]
 
-	means = np.mean(np.array(lgb_results), axis=1)			#average across all datasets
-	lgb_results["Keys"] = keys						#save names of hyperparameters / 1st order interactions
-	lgb_results["Means"] = means						#save means of hyperparameters / 1st order interactions
-	lgb_results.sort_values("Means", ascending=False, inplace=True)	#sort
-	lgb_results.to_csv("../Results/hyperparam_analysis.csv")		#store in .csv
+	means = np.mean(np.array(lgb_results), axis=1)                     #average across all datasets
+	lgb_results["Keys"] = keys                                         #save names of hyperparameters / 1st order interactions
+	lgb_results["Means"] = means                                       #save means of hyperparameters / 1st order interactions
+	lgb_results.sort_values("Means", ascending=False, inplace=True)    #sort
+	lgb_results.to_csv("../Results/hyperparam_analysis.csv")           #store in .csv
 
 if __name__ == "__main__":
 	main()

@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--opt_iters', default=100)		#number of optimization iterations
+parser.add_argument('--opt_iters', default=100)	        #number of optimization iterations
 parser.add_argument('--iters_moleculenet', default=50)	#number of eval iterations for moleculenet datasets
 parser.add_argument('--iters_moldata', default=5)		#number of eval iterations for moldata datasets
 parser.add_argument('--fp_type', default="ECFP")		#molecular representation (ECFP, MACCS, RDKIT)
