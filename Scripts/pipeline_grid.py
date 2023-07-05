@@ -16,21 +16,21 @@ def main():
     #loop over fp_types
     for i in range(3):
 		#evaluate SIDER dataset with different grids
-    		pr_100d, roc_100d = eval_dataset("sider",
+    		pr_100d, roc_100d = eval_lightgbm("sider",
                              "moleculenet",
                              27,
                              fp_types[i],
                              "default",
                              100,
                              50)
-    		pr_30d, roc_30d = eval_dataset("sider",
+    		pr_30d, roc_30d = eval_lightgbm("sider",
                              "moleculenet",
                              27,
                              fp_types[i],
                              "default",
                              30,
                              50)
-    		pr_30o, roc_30o = eval_dataset("sider",
+    		pr_30o, roc_30o = eval_lightgbm("sider",
                             "moleculenet",
                              27,
                              fp_types[i],
@@ -52,21 +52,21 @@ def main():
     #loop over fp_types
     for i in range(3):
     		#evaluate Trans dataset with different grids
-    		pr_100d, roc_100d = eval_dataset("trans",
+    		pr_100d, roc_100d = eval_lightgbm("fungal",
                              "moldata",
                              9,
                              fp_types[i],
                              "default",
                              100,
                              5)
-    		pr_30d, roc_30d = eval_dataset("trans",
+    		pr_30d, roc_30d = eval_lightgbm("fungal",
                              "moldata",
                              9,
                              fp_types[i],
                              "default",
                              30,
                              5)
-    		pr_30o, roc_30o = eval_dataset("trans",
+    		pr_30o, roc_30o = eval_lightgbm("fungal",
                              "moldata",
                              9,
                              fp_types[i],
@@ -83,7 +83,7 @@ def main():
     		results_fungal[fp_types[i]+"_PR_30_o"] = pr_30o
     
     #save to .csv
-    results_fungal.to_csv("../Results/trans_grid.csv")
+    results_fungal.to_csv("../Results/fungal_grid.csv")
 
 if __name__ == "__main__":
 	main()

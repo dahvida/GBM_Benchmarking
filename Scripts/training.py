@@ -2,7 +2,6 @@ import lightgbm
 from lightgbm import LGBMClassifier
 from xgboost import XGBClassifier
 from catboost import CatBoostClassifier
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import *
 import numpy as np
 import warnings
