@@ -32,28 +32,35 @@ def main(
 	if repo == "all":
 		dataset_names = [
 			"HIV", "tox21", "MUV", "bace", "bbbp", "clintox",
-			"phos", "ntp", "oxi"
+			"phos", "ntp", "oxi", "ache", "herg", "erbb1", "jak2",
+			"cox2"
 			]
-		task_n = [1, 12, 17, 1, 1, 2, 5, 6, 10]
-		repository_names = ["moleculenet"]*6 + ["moldata"]*3
-		iters = [iters_moleculenet]*6 + [iters_moldata]*3
+		task_n = [1, 12, 17, 1, 1, 2, 5, 6, 10, 1, 1, 1, 1, 1]
+		repository_names = ["moleculenet"]*6 + ["moldata"]*3 + ["chembl"]*5
+		iters = [iters_moleculenet]*6 + [iters_moldata]*3 + [iters_chembl]*5
 		
-	if repo == "moleculenet":
+	elif repo == "moleculenet":
 		dataset_names = ["HIV", "tox21", "MUV", "bace", "bbbp", "clintox"]
-		task_n = [1, 12, 17, 1, 1, 2]		 ]
+		task_n = [1, 12, 17, 1, 1, 2]
 		repository_names = ["moleculenet"]*6
 		iters = [iters_moleculenet]*6
 		
-	if repo == "moldata":
+	elif repo == "moldata":
 		dataset_names = ["phos", "ntp", "oxi"]
 		task_n = [5, 6, 10]
 		repository_names = ["moldata"]*3
 		iters = [iters_moldata]*3
+        
+	elif repo == "chembl":
+		dataset_names = ["ache", "herg", "erbb1", "jak2", "cox2"]
+		repository_names = ["chembl"]*5
+		iters = [iters_moleculenet]*5
+		task_n = [1,1,1,1,1]
 	
 	#process all moleculenet datasets and save .csv files with metrics
 	for i in range(len(dataset_names)):
-    		validate_booster(
-    			dataset_names[i],
+		validate_booster(
+					dataset_names[i],
                   	repository_names[i],
                   	task_n[i],
                   	fp_type,
@@ -64,7 +71,7 @@ def main(
 if __name__ == "__main__":
 	main(
 	opt_iters = args.opt_iters,
-	repo = args.opt_repo,
+	repo = args.repo,
 	iters_moleculenet = args.iters_moleculenet,
 	iters_moldata = args.iters_moldata,
 	fp_type = args.fp_type,

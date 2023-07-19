@@ -34,7 +34,7 @@ def main(
         dataset_names = [
 			"HIV", "tox21", "MUV", "bace", "bbbp", "clintox",
 			"phos", "ntp", "oxi", "ache", "herg", "erbb1", "jak2",
-			"cox2
+			"cox2"
 			]
         task_n = [1, 12, 17, 1, 1, 2, 5, 6, 10, 1, 1, 1, 1, 1]
         repository_names = ["moleculenet"]*6 + ["moldata"]*3 + ["chembl"]*3

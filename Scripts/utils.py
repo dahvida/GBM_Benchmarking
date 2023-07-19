@@ -8,6 +8,7 @@ from misc import *
 import time
 import pandas as pd
 import pickle as pkl
+from reg_utils import eval_reg
 import json
 import warnings
 warnings.filterwarnings("ignore")
@@ -200,9 +201,10 @@ def validate_booster(dataset_name,
     
     prefix = "../Results/"
     print("Evaluation start for:", dataset_name)
-        
+    
+    if dataset_rep != "chembl":
     #get shapleys from first optimization run
-    _, _, _, _, _, _, shaps_1 = eval_dataset(dataset_name, 
+        _, _, _, _, _, _, shaps_1 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
@@ -210,8 +212,8 @@ def validate_booster(dataset_name,
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
     
-    #get shapleys from second optimization run
-    _, _, _, _, _, _, shaps_2 = eval_dataset(dataset_name, 
+        #get shapleys from second optimization run
+        _, _, _, _, _, _, shaps_2 = eval_dataset(dataset_name, 
                                                                   dataset_rep,
                                                                   task_n,
                                                                   fp_type,
@@ -219,7 +221,15 @@ def validate_booster(dataset_name,
                                                                   opt_iters=opt_iters,
                                                                   run_iters=run_iters)
     
+    else:
+        _, _, shaps_1 = eval_reg(dataset_name, fp_type, "lightgbm",
+                                 opt_iters=opt_iters, run_iters=run_iters)
+        _, _, shaps_2 = eval_reg(dataset_name, fp_type, "lightgbm",
+                                 opt_iters=opt_iters, run_iters=run_iters)
+
     #get overlaps, store in dict and then to .txt
+    shaps_1 = shaps_1.reshape(-1,1)
+    shaps_2 = shaps_2.reshape(-1,1)
     comp_1_2, comp_1_3, comp_2_3 = compare_shaps(shaps_1, shaps_2, shaps_1)
     shap_comparison = {"Run_1 vs Run_2": comp_1_2}
     with open(prefix + dataset_name + '_shap_comp.txt', 'w') as file:
