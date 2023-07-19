@@ -5,7 +5,7 @@
 Repository containing the code and the datasets to reproduce the results from the paper "*Practical guidelines for the use of Gradient Boosting for molecular property prediction*".  
 
 ## Repository structure
-- [Datasets:](Datasets) Contains all datasets used in this study as .csv files  
+- [Datasets:](Datasets) Contains all datasets used in this study as .csv files (must be unzipped first) 
 - [Scripts:](Scripts) Contains all scripts and utility functions used to reproduce the results  
 - [Results:](Results) Contains the outputs from the pipeline functons  
 
