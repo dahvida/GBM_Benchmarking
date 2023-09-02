@@ -10,11 +10,18 @@ Repository containing the code and the datasets to reproduce the results from th
 - [Results:](Results) Contains the outputs from the pipeline functons  
 
 ## Installation  
-All necessary packages can be installed via conda from the `environment.yml` file.  
+The necessary environment can be configured via conda from the `environment.yml` file.  
 ```
 git clone https://github.com/dahvida/GBM_Benchmarking
-conda env create --name GBM --file=environments.yml
+conda env create --name GBM --file=environment.yml
 conda activate GBM
+```
+Additionally, you need to install the fANOVA package:  
+```
+git clone https://github.com/automl/fanova.git
+cd fanova/
+pip install -r requirements.txt
+python setup.py install
 ```
 
 ## Usage
@@ -39,6 +46,6 @@ python3 pipeline_benchmarking.py --opt_iters 30 --iters_moleculenet 10 --iters_m
 Check the `pipeline_x.py` files in the [Scripts:](Scripts) folder for a description of the available arguments for each script.  
 
 ## How to cite
-Link to publication  
+Please refer to the following publication: https://jcheminf.biomedcentral.com/articles/10.1186/s13321-023-00743-7  
 
 
