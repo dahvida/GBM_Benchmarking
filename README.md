@@ -43,7 +43,7 @@ Here is the code to execute the same script, changing the number of iterations f
 cd /GBM_Benchmarking/Scripts
 python3 pipeline_benchmarking.py --opt_iters 30 --iters_moleculenet 10 --iters_moldata 3
 ```
-Check the `pipeline_x.py` files in the [Scripts:](Scripts) folder for a description of the available arguments for each script.  
+Check the `pipeline_x.py` files in the [Scripts](Scripts) folder for a description of the available arguments for each script.  
 
 ## How to cite
 Please refer to the following publication: https://jcheminf.biomedcentral.com/articles/10.1186/s13321-023-00743-7  
